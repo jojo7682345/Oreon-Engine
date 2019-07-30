@@ -4,17 +4,14 @@ import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
-import java.util.List;
-
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL31;
 import org.lwjgl.opengl.GL40;
 import org.lwjgl.opengl.GL43;
 
-import core.scene.GameObject;
+import core.scene.Scene;
 import core.utils.Constants;
-import core.utils.SceneLoader;
 
 /**
  * 
@@ -50,6 +47,8 @@ public class CoreEngine {
 	public void init() {
 		core.configs.Default.init();
 		renderingEngine.init();
+		Scene.init(renderingEngine);
+		
 	}
 
 	public void start() {
@@ -137,7 +136,6 @@ public void run() {
 		Input.getInstance().update();
 		Camera.getInstance().update();
 		renderingEngine.update();
-		SceneLoader.update(this);
 	}
 
 	private void cleanUp() {
@@ -155,20 +153,9 @@ public void run() {
 		System.out.println("Max Uniform Block Size: " + GL31.GL_MAX_UNIFORM_BLOCK_SIZE + " bytes");
 		System.out.println("Max SSBO Block Size: " + GL43.GL_MAX_SHADER_STORAGE_BLOCK_SIZE + " bytes");
 	}
-
-	public void removeObject(GameObject object) {
-		renderingEngine.removeObjectFromRenderQueue(object);
+	
+	public RenderingEngine getRenderingEngine() {
+		return renderingEngine;
 	}
-
-	public void addObject(GameObject object) {
-		renderingEngine.addObjectToRenderQueue(object);
-	}
-
-	public void clearObjects() {
-		renderingEngine.clearRenderingQueue();
-	}
-
-	public List<GameObject> getActiveObjects() {
-		return renderingEngine.getRenderQueue();
-	}
+	
 }

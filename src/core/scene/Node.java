@@ -3,8 +3,6 @@ package core.scene;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.utils.SceneLoader;
-
 public class Node {
 
 	private Node parent;
@@ -19,17 +17,6 @@ public class Node {
 	{
 		child.setParent(this);
 		children.add(child);
-	}
-	
-	public void addChildrenToScene() {
-		List<GameObject> addList = new ArrayList<>();
-		for(Node child: getChildren()) {
-			child.addChildrenToScene();
-			if(child instanceof GameObject) {
-				addList.add((GameObject)child);
-			}
-		}
-		SceneLoader.addAllObject(addList);
 	}
 	
 	public void update()

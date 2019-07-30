@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import core.math.Transform;
 
-public class GameObject extends Node{
+public abstract class GameObject extends Node{
 
 	private HashMap<String, Component> components;
 	private String name = "-";
@@ -14,15 +14,11 @@ public class GameObject extends Node{
 	
 	public GameObject()
 	{
-		
+		components = new HashMap<String, Component>();
 		setWorldTransform(new Transform());
 		setLocalTransform(new Transform());
-		components = new HashMap<String, Component>();
 	}
-	
-	public synchronized void allocate() {
-		
-	}
+
 	
 	public void addComponent(String string, Component component)
 	{
@@ -80,7 +76,7 @@ public class GameObject extends Node{
 	}
 	
 	public void onDestroy() {};
-	public void onCreate() {}
+	public abstract void onCreate();
 
 	public String getName() {
 		return name;

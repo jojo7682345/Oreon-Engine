@@ -18,8 +18,6 @@ public class RenderingEngine {
 	private Window window;
 	
 	private List<GameObject> renderQueue = new ArrayList<>();
-
-	private List<GameObject> prerenderQueue = new ArrayList<>();
 	 
 	public RenderingEngine()
 	{
@@ -35,9 +33,7 @@ public class RenderingEngine {
 	{	
 		Camera.getInstance().update();
 		
-		Default.clearScreen();
-		renderQueue.addAll(prerenderQueue);
-		prerenderQueue.clear();
+		Default.clearScreen();;
 		for(GameObject object : renderQueue) {
 			object.render();
 		}
@@ -57,12 +53,6 @@ public class RenderingEngine {
 			object.destroy();
 		}
 		renderQueue.clear();
-	}
-	
-	public void addObjectToRenderQueue(GameObject object) {
-		object.allocate();
-		prerenderQueue.add(object);
-		
 	}
 
 	public void removeObjectFromRenderQueue(GameObject object) {

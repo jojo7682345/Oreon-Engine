@@ -83,4 +83,11 @@ public class Sprite implements Cloneable{
 		return mesh;
 	}
 
+	public float getWidth() {
+		return textures[0].getWidth();
+	}
+	public float getHeight() {
+		return textures[0].getHeight();
+	}
+
 }
