@@ -2,7 +2,7 @@ package core;
 
 import core.kernel.Game;
 import core.kernel.ModelLoader;
-import core.utils.SceneLoader;
+import core.scene.Scene;
 
 public class Main {
 
@@ -11,7 +11,7 @@ public class Main {
 		game.getEngine().createWindow(1280, 720, 320, 180, false);
 		game.init();
 		ModelLoader.load();
-		SceneLoader.loadScene("mainScene", true);
+		Scene.load("mainScene", true);
 		game.launch();
 	}
 
