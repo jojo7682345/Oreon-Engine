@@ -8,15 +8,12 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glClearDepth;
 import static org.lwjgl.opengl.GL11.glCullFace;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glFrontFace;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
-
-import org.lwjgl.opengl.GL11;
 
 
 public class Default implements RenderConfig{
