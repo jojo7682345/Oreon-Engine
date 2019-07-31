@@ -54,4 +54,7 @@ public class Renderer extends Component{
 		vbo.allocate(mesh);
 		setVbo(vbo);
 	}
+
+	@Override public void update() {
+	}
 }

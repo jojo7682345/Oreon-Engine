@@ -7,7 +7,10 @@ in vec2 texture_FS;
 uniform sampler2D tex;
 
 void main(){
-	
-	outputColor = texture(tex,texture_FS);
+	vec4 color = texture(tex,texture_FS);
+	if(color.a!=1){
+		discard;
+	}
+	outputColor = color;
 	
 }
