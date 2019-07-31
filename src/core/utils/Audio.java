@@ -9,6 +9,8 @@ import java.nio.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.function.Consumer;
+
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.stb.STBVorbis.*;
@@ -87,14 +89,41 @@ public class Audio {
 		sounds.put(file.getName().replace(".ogg", ""), bufferPointer);
 	}
 
-	public static void playSound(String sound) {
+	private static int[] getPointers(String sound) {
 		int bufferPointer = sounds.get(sound);
 		int sourcePointer = alGenSources();
+		return new int[]{bufferPointer,sourcePointer};
+	}
+	
+	public static void playSound(String sound) {
+		int[] pointers = getPointers(sound);
 
 		// Assign our buffer to the source
-		alSourcei(sourcePointer, AL_BUFFER, bufferPointer);
-		alSourcePlay(sourcePointer);
-		activeSounds.add(sourcePointer);
+		alSourcei(pointers[1], AL_BUFFER, pointers[0]);
+		alSourcePlay(pointers[1]);
+		activeSounds.add(pointers[1]);
+	}
+	
+	public static void playSound(String sound, Consumer<int[]> run) {
+		int[] pointers = getPointers(sound);
+
+		// Assign our buffer to the source
+		alSourcei(pointers[1], AL_BUFFER, pointers[0]);
+		run.accept(pointers);
+		alSourcePlay(pointers[1]);
+		activeSounds.add(pointers[1]);
+	}
+	
+	public static void setGain(float gain,int[] pointers) {
+		alSourcef(pointers[1],AL_GAIN,gain);
+	}
+	
+	public static void setLooping(boolean looping, int[] pointers) {
+		alSourcef(pointers[1], AL_LOOPING, (looping ? 1:0));
+	}
+	
+	public static void setPitch(float pitch,int[] pointers) {
+		alSourcef(pointers[1],AL_PITCH,pitch);
 	}
 	
 	public static void update() {
