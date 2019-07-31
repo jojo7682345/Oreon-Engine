@@ -61,6 +61,14 @@ public abstract class SpriteObject extends GameObject{
 		getWorldTransform().setScaling(sprite.getWidth(),sprite.getHeight(),0);
 	}
 	
+	public int getIndex() {
+		return sprite.getIndex();
+	}
+	
+	public void setIndex(int index) {
+		sprite.setIndex(index);
+	}
+	
 	public Sprite getSprite() {
 		return sprite;
 	}

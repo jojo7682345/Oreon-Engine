@@ -6,11 +6,11 @@ public abstract class Component{
 	
 	private GameObject parent;
 	
-	public void update(){};
+	public abstract void update();
 	
 	public void input(){};
 	
-	public void render(){};
+	public abstract void render();
 	
 	public GameObject getParent() {
 		return parent;

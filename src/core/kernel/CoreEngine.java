@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL40;
 import org.lwjgl.opengl.GL43;
 
 import core.scene.Scene;
+import core.utils.Audio;
 import core.utils.Constants;
 
 /**
@@ -47,6 +48,7 @@ public class CoreEngine {
 	public void init() {
 		core.configs.Default.init();
 		renderingEngine.init();
+		Audio.init();
 		Scene.init(renderingEngine);
 		
 	}
@@ -135,11 +137,13 @@ public void run() {
 	private void update() {
 		Input.getInstance().update();
 		Camera.getInstance().update();
+		Audio.update();
 		renderingEngine.update();
 	}
 
 	private void cleanUp() {
 		renderingEngine.clearRenderingQueue();
+		Audio.destroy();
 		Window.getInstance().dispose();
 		glfwTerminate();
 		System.exit(0);
