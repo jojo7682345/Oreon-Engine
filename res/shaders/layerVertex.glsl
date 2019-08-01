@@ -6,10 +6,11 @@ layout (location = 2) in vec2 textureCoord0;
 
 out vec2 texture_FS;
 
-uniform mat4 modelViewProjectionMatrix;
+uniform vec3 scale;
+uniform mat4 viewMatrix;
 
 void main()
 {
-	gl_Position = modelViewProjectionMatrix * vec4(position0,1);
+	gl_Position = viewMatrix * vec4(position0.xy*scale.xy,scale.z,1);
 	texture_FS = textureCoord0;
 }
