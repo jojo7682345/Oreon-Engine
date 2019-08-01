@@ -5,6 +5,7 @@ import java.util.List;
 
 import core.configs.Default;
 import core.scene.GameObject;
+import core.scene.Layer;
 
 /**
  * 
@@ -37,7 +38,7 @@ public class RenderingEngine {
 		for(GameObject object : renderQueue) {
 			object.render();
 		}
-		
+		Layer.renderAll();
 		// draw into OpenGL window
 		window.render();
 	}
