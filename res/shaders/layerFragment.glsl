@@ -8,7 +8,7 @@ uniform sampler2D tex;
 
 void main(){
 	vec4 color = texture(tex,texture_FS);
-	if(color.a!=1){
+	if(color.a==0){
 		discard;
 	}
 	outputColor = color;

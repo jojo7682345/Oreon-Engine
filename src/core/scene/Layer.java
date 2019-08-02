@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
 import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glDeleteTextures;
 import static org.lwjgl.opengl.GL11.glTexImage2D;
-import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ import core.configs.Default;
 import core.kernel.ModelLoader;
 import core.kernel.Window;
 import core.math.Vec3f;
+import core.texturing.Texture2D;
 import modules.shaders.LayerShader;
 
 public class Layer {
@@ -113,7 +114,7 @@ public class Layer {
 		}
 		buffer.flip();
 	}
-	
+
 	public void setAlpha(float alpha) {
 		this.alpha = alpha;
 	}
@@ -139,9 +140,8 @@ public class Layer {
 	public void drawRectangle(int x, int y, int width, int height) {
 		x = Math.max(Math.min(x, WIDTH), 0);
 		y = Math.max(Math.min(y, HEIGHT), 0);
-		width = Math.max(Math.min(WIDTH - x, x + width), 0)-x;
-		height = Math.max(Math.min(HEIGHT - y, y + height), 0)-y;
-
+		width = Math.max(Math.min(WIDTH - x, x + width), 0) - x;
+		height = Math.max(Math.min(HEIGHT - y, y + height), 0) - y;
 		for (int xx = x; xx < x + width; xx++) {
 			for (int yy = y; yy < y + height; yy++) {
 				int i = yy * WIDTH + xx;
@@ -152,6 +152,30 @@ public class Layer {
 			}
 
 		}
+	}
+
+	public void drawImage(Texture2D texture, int x, int y) {
+		glEnable(GL_TEXTURE);
+		texture.bind();
+		ByteBuffer buffer = BufferUtils.createByteBuffer(texture.getWidth() * texture.getHeight() * 4);
+		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+		int width = Math.max(Math.min(WIDTH - x, x + texture.getWidth()), 0) - x;
+		int height = Math.max(Math.min(HEIGHT - y, y + texture.getHeight()), 0) - y;
+		for (int xx = x; xx < Math.max(x + width,WIDTH); xx++) {
+			for (int yy = y; yy <Math.max(y + height,HEIGHT); yy++) {
+				int i = yy * WIDTH + xx;
+				int j = (yy-y)*WIDTH+(xx-x);
+				if(buffer.get(j*4+3)==0) {
+					continue;
+				}
+				this.buffer.put(i * 4 + 0, buffer.get(j * 4 + 0));
+				this.buffer.put(i * 4 + 1, buffer.get(j * 4 + 1));
+				this.buffer.put(i * 4 + 2, buffer.get(j * 4 + 2));
+				this.buffer.put(i * 4 + 3, buffer.get(j * 4 + 3));
+			}
+		}
+		texture.unbind();
+		glDisable(GL_TEXTURE);
 	}
 
 }
